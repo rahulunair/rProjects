@@ -7,4 +7,13 @@
 #Find error rate for the training data and test data.
 
 ########################################################################################
+# installing and loading the required packages
+install.packages('ISLR')
+library(ISLR)
+data("Smarket")
+
+# understanding the dataset
+str(Smarket)
+?Smarket
+
 
