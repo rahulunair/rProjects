@@ -15,5 +15,13 @@ data("Smarket")
 # understanding the dataset
 str(Smarket)
 ?Smarket
+# correlation matrix to see if there is any relation between different attributes
+cor(Smarket[, -9])  
+# Except for the significant relationship between volume and year we cannot find any
+# relationship between any other variables
+
+# modelling direction of market and other attributes using logistic regression.
+logit.model <-  glm (Direction ~ Volume + Lag1 + Lag2 + Lag3 + Lag4 + Lag5, family = binomial, data = Smarket)
+
 
 
