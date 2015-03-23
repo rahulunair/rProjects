@@ -22,16 +22,28 @@ cor(Smarket[, -9])
 
 # splitting the dataset between train and test
 Smarket.train <- Smarket[Smarket$Year < 2005,] #998 observations
-Smarket.test <- Smarket[!(Smarket$Year < 2005), ] # 252 observations
+Smarket.test <- Smarket[(Smarket$Year >= 2005), ] # 252 observations
 summary(Smarket.train)
+nrow(Smarket.test)
 
-# modelling direction of market and other attributes using logistic regression.
-logit.model <-  glm (Direction ~ Volume + Lag1 + Lag2 + Lag3 + Lag4 + Lag5, family = binomial, data = Smarket.train)
-logit.predict <- predict(logit.model, type = 'response')
-logit.predict[1:10]
+# modelling direction of market and other attributes using logistic regression using trainig data.
+logit.model <-  glm (Direction ~ Volume + Lag1 + Lag2 + Lag3, family = binomial, data = Smarket.train)
+# testing the model.
+length(logit.model)
+logit.prob=predict(logit.model,Smarket.2005,type="response")
+logit.prob [1:10]
+length(logit.prob)
+logit.predict = rep("Down", length(logit.prob))
+logit.predict[logit.prob > 0.5] <- "Up"
 length(logit.predict)
-logit.pred = rep("Down", 998)
-logit.pred[logit.predict > 0.5] = "Up"
+table(logit.predict, Smarket.test$Direction) # cross table of prediction and real direction
+mean(logit.predict== Smarket.test$Direction)  # Training errror rate
+mean(logit.predict != Smarket.test$Direction) # Testing error rate
 
-table(logit.pred, Smarket.train$Direction) # cross table of prediction and real direction
+#################################################################################
+
+
+
+
+
 
